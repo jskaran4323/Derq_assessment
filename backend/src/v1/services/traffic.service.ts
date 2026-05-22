@@ -1,6 +1,7 @@
 import { prisma } from "../../prisma";
 import { CreateTrafficDto, UpdateTrafficDto, UpsertTrafficDto } from "../../types/traffic.dto";
 
+
 export class TrafficService {
 
   async findAll() {

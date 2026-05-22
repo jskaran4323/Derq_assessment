@@ -68,18 +68,19 @@ export class TrafficController {
     try {
       const { id } = req.params;
       const { count, recordedAt } = req.body;
-    
+      const safeId = Array.isArray(id) ? id[0] : id;
+
       if (!count && !recordedAt) {
         res.status(400).json({ error: "Nothing to update" });
         return;
       }
 
-    //   const data = await trafficService.update(id, {
-    //     ...(count      && { count }),
-    //     ...(recordedAt && { recordedAt: new Date(recordedAt) })
-    //   });
+      const data = await trafficService.update(safeId, {
+        ...(count      && { count }),
+        ...(recordedAt && { recordedAt: new Date(recordedAt) })
+      });
 
-    //   res.json(data);
+      res.json(data);
     } catch (err) {
       if (err.message === "Traffic record not found") {
         res.status(404).json({ error: err.message });
@@ -108,14 +109,10 @@ export class TrafficController {
   async remove(req: Request, res: Response) {
     try {
       const { id } = req.params;
-      if (!id) {
-        return res.status(400).json({
-          message: "Id is required"
-        });
-      }
-    //   const data = await trafficService.delete(id);
-    //   res.json(data);
-    } catch (err) {
+      const safeId = Array.isArray(id) ? id[0] : id;
+      const data = await trafficService.delete(safeId);
+      res.json(data);
+     } catch (err) {
       if (err.message === "Traffic record not found") {
         res.status(404).json({ error: err.message });
         return;

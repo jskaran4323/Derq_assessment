@@ -8,11 +8,12 @@ Email: jaskaran.s@myjobsca.com
 ---
 ## Answer to Question 4 of the assignment:
 For scalability as traffic increases
-1. At low traffic like 5RPS, a simple one backend server and single database is enough as long as proper indexing strategies are used for faster queries.
+1. At low traffic like 5RPS, a simple one backend server setup(one ED2 instance) and single database setup(single RDS) is enough as long as proper indexing strategies are used for faster queries.
 
-2. At 50RPS, we can experince the same reads for graphs and analytics, so addition of caching strategies (example redis) and running multiple instances of backend server behind a load balancer(for load distribution) would be enough.
+2. At 50RPS, we can experince the same reads for graphs and analytical calculations from multiple requests, so addition of caching strategies for both frontend and backend(example redis) and running multiple instances of backend server behind a load balancer(for load distribution) would result in faster response. on the frontend side we can implement useCallbacks, useMemo for heavy calculations.
 
-3. At 500RPS, we can distrubute the system even more, backend server would be horizontally scaled(muliple instances with load balancing), replicas for database like read replicas for heavy read traffic.
+3. At 500RPS, we can distrubute the system even more, backend server would be horizontally scaled(muliple instances with load balancing). for example, multiple AWS EC2 instances with two load balancers(one for fallback), replicas for database like read replicas for heavy read traffic. Another thing would be making the system asynchronous by using Consumer-producer pattern so that system can do background jobs without blocking the whole system.
+   Implementation of rate limiting would be beneficial here as well, since one user might block the system by putting too many requests.
 
 
 # Setup and Execution Instructions
@@ -53,6 +54,20 @@ mysql -u root -p traffic_db < backup.sql
 
 `backup.sql` is included in the root folder.
 
+NOTE: If `backup.sql` does not work for any reason, you can seed the database manually.
+
+Create a `seed.ts` file inside:
+
+```txt
+/backend/prisma
+```
+
+Use the seed file provided in the email, then run:
+
+```bash
+npx prisma generate
+npx prisma db seed
+```
 ---
 
 ### 4. Create `.env` Files
@@ -117,27 +132,7 @@ Open Docker Desktop to check logs.
 
 ## Backend Setup
 
-### 1. Create `.env` File
-
-Inside `/backend`:
-
-```env
-DATABASE_URL="mysql://root:password@localhost:3306/traffic_db"
-PORT=3000
-```
-
----
-
-### 2. Install Dependencies
-
-```bash
-cd backend
-npm install
-```
-
----
-
-### 3. Create Database
+### 1. Create Database
 
 Run:
 
@@ -158,6 +153,28 @@ mysql -u root -p traffic_db < backup.sql
 ```
 
 ---
+
+### 2. Create `.env` File
+
+Inside `/backend`:
+
+```env
+DATABASE_URL="mysql://root:password@localhost:3306/traffic_db"
+PORT=3000
+```
+
+---
+
+### 3. Install Dependencies
+
+```bash
+cd backend
+npm install
+```
+
+---
+
+
 
 ### 4. Start Backend
 
@@ -212,16 +229,17 @@ http://localhost:5173
 
 # System Architecture
 
+
 This project is built as a full-stack web application using a simple but scalable layered architecture. The system is split into three main parts: frontend, backend, and database.
 
 The frontend is built using React with Vite. It is responsible only for the user interface and user interactions. It does not talk directly to the database. Instead, it sends HTTP requests to the backend API. The frontend runs independently and communicates with the backend using a base API URL defined in environment variables.
 
-I used Zustand for statemanagement and use custom hooks for traffic data.
+I used Zustand for state management and use custom hooks for traffic data.
 
 Since i used typescript i have to create a custom error handler as well to hanlde API errors.
 
 In case of graphs i used MUI charts:
-https://mui.com/
+https://mui.com/   here a link for reference
 
 I didnt added any tailwind/bootstrap for CSS. instead kept everything simple using simple CSS file under `/css`.
 
@@ -239,7 +257,11 @@ Kept the flow simple:
 Server -> Controller -> service -> database
 ```
 
-I added CRUD for country and traffic but i didnt used them in the frontend.
+Assumption:
+I assumed since we only needed traffic data we dont need frontend Implementation of adding countries, traffic data etc .
+
+So, I only added backend CRUD for country and traffic.
+they are testable through tools like CURL, Postman
 
 Routes can be found in the `./routes` file.
 

@@ -7,20 +7,24 @@ import "../css/dashboard.css";
 import { useTrafficStore } from "../store/trafficDataStore";
 
 export default function DashBoard() {
-  const { error } = useTrafficStore();
+  const { error, isLoading } = useTrafficStore();
   return (
 
     <>
     <Navbar />
     <div className="dashboard">
       <h1>Traffic Dashboard</h1>
-      <img src={trafficImg} alt="traffic" />
       {error && (
           <div className="error-box">
             {error}
           </div>
         )}
-
+      {isLoading && (
+          <div className="loading-box">
+            ...Loading
+          </div>
+        )}
+          <img src={trafficImg} alt="traffic" />
       <div className="charts-container">
         <div className="chart-card">
           <CountryTrafficChart />

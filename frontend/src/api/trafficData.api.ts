@@ -4,8 +4,8 @@ export const trafficDataApi = {
     getTrafficDataByCountry: () =>{
       return  apiClient.get("/traffic/by-country")
     },
-    getTrafficDataByVehicle: () =>{
-        return apiClient.get("/traffic/by-vehicle")
-    }
+    getVehicleByCountry: (countryId: string) => {
+        return apiClient.get(`/traffic/vehicle/${countryId}`);
+      }
     
 }

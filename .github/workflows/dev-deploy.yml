@@ -3,7 +3,8 @@ name: Dev Build & Test
 on:
   push:
     branches:
-      - develop
+      - develop 
+      - main
 
 jobs:
   build:

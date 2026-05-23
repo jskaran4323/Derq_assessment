@@ -1,5 +1,5 @@
 import { prisma } from "../../prisma";
-
+import { Country } from "@prisma/client";
 export class CountryService{
     async create(name: string){
         const country = await prisma.country.create({data: {name}})
@@ -14,7 +14,7 @@ export class CountryService{
     async findAll() {
         const countries = await prisma.country.findMany();
     
-        return countries.map(c => ({
+        return countries.map((c: Country) => ({
           id: c.id,
           name: c.name,
           createdAt: c.created_at

@@ -1,6 +1,6 @@
 import { prisma } from "../../prisma";
 import { CreateTrafficDto, UpdateTrafficDto, UpsertTrafficDto } from "../../types/traffic.dto";
-
+import { TrafficData, Country } from "@prisma/client";
 
 export class TrafficService {
   async findAll() {
@@ -10,7 +10,7 @@ export class TrafficService {
       }
     });
 
-    return data.map(t => ({
+    return data.map((t: TrafficData & { country: Country }) => ({
       id: t.id,
       country: t.country.name,
       type: t.type,
@@ -18,6 +18,7 @@ export class TrafficService {
       recordedAt: t.recordedAt
     }));
   }
+  
 
   async getByCountry() {
     const rows = await prisma.trafficData.groupBy({
@@ -32,7 +33,7 @@ export class TrafficService {
       countries.map(c => [c.id, c.name])
     );
 
-    return rows.map(r => ({
+    return rows.map((r: (typeof rows)[number]) => ({
       countryId: r.countryId,
       country: countryMap[r.countryId],
       total: r._sum.count ?? 0
@@ -46,7 +47,7 @@ export class TrafficService {
       _sum: { count: true }
     });
   
-    return rows.map(r => ({
+    return rows.map((r: (typeof rows)[number]) => ({
       vehicleType: r.type,
       total: r._sum.count ?? 0
     }));

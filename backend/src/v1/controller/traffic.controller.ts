@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import { TrafficService } from "../services/traffic.service";
 
+
 const trafficService = new TrafficService();
+const toMessage = (err: unknown) => (err instanceof Error ? err.message : String(err));
 export class TrafficController {
   
   async getAll(req: Request, res: Response) {
@@ -9,7 +11,7 @@ export class TrafficController {
       const data = await trafficService.findAll();
       res.json(data);
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      res.status(500).json({ error: toMessage(err) });
     }
   }
 
@@ -18,7 +20,7 @@ export class TrafficController {
       const data = await trafficService.getByCountry();
       res.json(data);
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      res.status(500).json({ error: toMessage(err) });
     }
   }
 
@@ -52,7 +54,7 @@ export class TrafficController {
 
       res.status(201).json(data);
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      res.status(500).json({ error: toMessage(err) });
     }
   }
 
@@ -74,11 +76,11 @@ export class TrafficController {
 
       res.json(data);
     } catch (err) {
-      if (err.message === "Traffic record not found") {
-        res.status(404).json({ error: err.message });
+      if (toMessage(err) === "Traffic record not found") {
+        res.status(404).json({ error: toMessage(err) });
         return;
       }
-      res.status(500).json({ error: err.message });
+      res.status(500).json({ error: toMessage(err) });
     }
   }
 
@@ -94,7 +96,7 @@ export class TrafficController {
       const data = await trafficService.upsert({ countryId, vehicleType, count });
       res.json(data);
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      res.status(500).json({ error: toMessage(err) });
     }
   }
 
@@ -105,11 +107,11 @@ export class TrafficController {
       const data = await trafficService.delete(safeId);
       res.json(data);
      } catch (err) {
-      if (err.message === "Traffic record not found") {
-        res.status(404).json({ error: err.message });
+      if (toMessage(err) === "Traffic record not found") {
+        res.status(404).json({ error: toMessage(err) });
         return;
       }
-      res.status(500).json({ error: err.message });
+      res.status(500).json({ error: toMessage(err) });
     }
   }
 }

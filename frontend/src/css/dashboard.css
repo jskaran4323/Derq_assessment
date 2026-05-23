@@ -46,19 +46,6 @@
   
     font-size: 14px;
   }
-
-  .loading-box {
-    background: rgba(34, 163, 79, 0.12);
-    color: #69b77f;
-  
-    padding: 10px 14px;
-    margin: 10px 0 20px;
-  
-    border-radius: 8px;
-    border: 1px solid rgba(45, 86, 62, 0.3);
-  
-    font-size: 14px;
-  }
   @media (max-width: 768px) {
     .charts-container {
       grid-template-columns: 1fr;

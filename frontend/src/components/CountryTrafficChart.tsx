@@ -2,7 +2,7 @@
 import { useEffect} from "react";
 import { useTraffic } from "../hooks/trafficData";
 import { LineChart } from "@mui/x-charts";
-
+import "./../css/style.css"
 export default function CountryTrafficChart() {
   const { countryData, getCountryData} = useTraffic();
 

@@ -7,9 +7,8 @@ import "../css/dashboard.css";
 import { useTrafficStore } from "../store/trafficDataStore";
 
 export default function DashBoard() {
-  const { error, isLoading } = useTrafficStore();
+  const error = useTrafficStore(state => state.error);
   return (
-
     <>
     <Navbar />
     <div className="dashboard">
@@ -17,11 +16,6 @@ export default function DashBoard() {
       {error && (
           <div className="error-box">
             {error}
-          </div>
-        )}
-      {isLoading && (
-          <div className="loading-box">
-            ...Loading
           </div>
         )}
           <img src={trafficImg} alt="traffic" />

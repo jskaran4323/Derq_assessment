@@ -3,7 +3,6 @@ import { CreateTrafficDto, UpdateTrafficDto, UpsertTrafficDto } from "../../type
 
 
 export class TrafficService {
-
   async findAll() {
     const data = await prisma.trafficData.findMany({
       include: {

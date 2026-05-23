@@ -1,9 +1,7 @@
 import { Request, Response } from "express";
 import { TrafficService } from "../services/traffic.service";
 
-
 const trafficService = new TrafficService();
-
 export class TrafficController {
   
   async getAll(req: Request, res: Response) {
@@ -32,7 +30,7 @@ export class TrafficController {
   
       res.json(data);
     } catch (err) {
-      res.status(500).json({ message: "Error fetching data" });
+      res.status(500).json({ message: "Error fetching data" + err });
     }
   };
 

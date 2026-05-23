@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { CountryService } from "../services/country.service";
-import { error } from "node:console";
 
 const service = new CountryService();
 
@@ -26,13 +25,9 @@ export class CountryController {
 
   update = async (req: Request, res: Response) => {
     try {
-       
-        const id: string = req.body.id;
-        if(!id){
-            throw new error("id not found")
-        }
-
-      const result = await service.update(id, req.body.name);
+        const id = req.params;
+        const safeId = Array.isArray(id) ? id[0] : id;
+        const result = await service.update(safeId, req.body.name);
       res.json(result);
     } catch (err) {
       res.status(400).json({ message: err.message });
@@ -40,13 +35,10 @@ export class CountryController {
   };
 
   delete = async (req: Request, res: Response) => {
-    const id: string = req.body.id;
-        if(!id){
-            throw new error("id not found")
-        }
-
-    try {
-      const result = await service.delete(id);
+    const id  = req.params;
+    const safeId = Array.isArray(id) ? id[0] : id;
+     try {
+      const result = await service.delete(safeId);
       res.json(result);
     } catch (err) {
       res.status(400).json({ message: err.message });

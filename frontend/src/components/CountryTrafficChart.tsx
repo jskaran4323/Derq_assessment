@@ -1,0 +1,34 @@
+
+import { useEffect } from "react";
+import { useTraffic } from "../hooks/trafficData";
+import { LineChart } from "@mui/x-charts";
+
+export default function CountryTrafficChart() {
+  const { countryData, getCountryData } = useTraffic();
+
+  useEffect(() => {
+    getCountryData();
+  }, []);
+
+  return (
+    <>
+      <h2>Country-wise Traffic</h2>
+
+      <LineChart
+        xAxis={[
+          {
+            scaleType: "band",
+            data: countryData.map((item: any) => item.country)
+          }
+        ]}
+        series={[
+          {
+            data: countryData.map((item: any) => item.total),
+            label: "Traffic"
+          }
+        ]}
+        height={300}
+      />
+    </>
+  );
+}

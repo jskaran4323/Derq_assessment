@@ -1,0 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background: #0b1120;
+    color: #e2e8f0;
+    font-family: Inter, sans-serif;
+  }
+  
+  h1,
+  h2,
+  h3 {
+    font-weight: 600;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th,
+  td {
+    padding: 14px;
+    border-bottom: 1px solid #1e293b;
+    text-align: left;
+  }

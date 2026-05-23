@@ -17,7 +17,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
+      
+      - name: Install frontend dependencies
+        working-directory: ./frontend
+        run: npm ci
+  
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
+      
       - name: Install backend dependencies
         working-directory: ./backend
         run: npm ci
@@ -29,6 +37,3 @@ jobs:
       - name: Run backend tests
         working-directory: ./backend
         run: npm test
-
-      - name: Generate Prisma Client
-        run: npx prisma generate  

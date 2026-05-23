@@ -7,8 +7,7 @@ const trafficController = new TrafficController();
 
 
 router.get("/by-country",  trafficController.getByCountry);
-router.get("/by-vehicle",  trafficController.getByVehicle);
-router.get("/breakdown",   trafficController.getBreakdown);
+router.get("/vehicle/:countryId", trafficController.getVehicleByCountry);
 
 
 router.get("/",            trafficController.getAll);

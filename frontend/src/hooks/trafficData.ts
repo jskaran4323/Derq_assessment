@@ -21,12 +21,13 @@ export const useTraffic = () => {
       store.setLoading(false);
     }
   }
-
-  const getVehicleData =async () => {
+  
+  const getVehicleByCountry = async (countryId: string) => {
     store.setLoading(true);
     store.setError(null);
+  
     try {
-      const response = await trafficDataApi.getTrafficDataByVehicle();
+      const response = await trafficDataApi.getVehicleByCountry(countryId);
       store.setVehicleData(response.data);
       return { success: true };
     } catch (err) {
@@ -39,6 +40,8 @@ export const useTraffic = () => {
     }
   };
 
+
+
   return {
     countryData: store.countryData,
     vehicleData: store.vehicleData,
@@ -47,7 +50,7 @@ export const useTraffic = () => {
     error: store.error,
 
     getCountryData,
-    getVehicleData,
+    getVehicleByCountry,
    
     clearError: () => store.setError(null),
     reset: () => store.reset()

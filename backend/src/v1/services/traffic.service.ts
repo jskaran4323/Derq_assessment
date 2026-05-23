@@ -3,7 +3,6 @@ import { CreateTrafficDto, UpdateTrafficDto, UpsertTrafficDto } from "../../type
 
 
 export class TrafficService {
-
   async findAll() {
     const data = await prisma.trafficData.findMany({
       include: {
@@ -34,38 +33,22 @@ export class TrafficService {
     );
 
     return rows.map(r => ({
+      countryId: r.countryId,
       country: countryMap[r.countryId],
       total: r._sum.count ?? 0
     }));
   }
 
-  async getByVehicle() {
+  async getVehicleByCountry(countryId: string) {
     const rows = await prisma.trafficData.groupBy({
       by: ['type'],
-      _sum: { count: true },
-      orderBy: { _sum: { count: 'desc' } }
+      where: { countryId },
+      _sum: { count: true }
     });
-
+  
     return rows.map(r => ({
       vehicleType: r.type,
       total: r._sum.count ?? 0
-    }));
-  }
-
-  async getBreakdown() {
-    const data = await prisma.trafficData.findMany({
-      include: {
-        country: true
-      },
-      orderBy: [
-        { country: { name: 'asc' } }
-      ]
-    });
-
-    return data.map(t => ({
-      country: t.country.name,
-      vehicleType: t.type,
-      count: t.count
     }));
   }
 

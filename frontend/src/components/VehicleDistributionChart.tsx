@@ -1,17 +1,46 @@
-import { PieChart } from "@mui/x-charts/PieChart";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTraffic } from "../hooks/trafficData";
+import { PieChart } from "@mui/x-charts/PieChart";
 
-export default function VehicleDistributionChart() {
-  const { vehicleData, getVehicleData } = useTraffic();
+export default function VehicleByCountry() {
+  const {
+    countryData,
+    vehicleData,
+    getCountryData,
+    getVehicleByCountry
+  } = useTraffic();
+
+  const [selectedCountry, setSelectedCountry] = useState("");
 
   useEffect(() => {
-    getVehicleData();
+    getCountryData();
   }, []);
 
+  useEffect(() => {
+    console.log(selectedCountry);
+     console.log(countryData);
+     
+    if (selectedCountry) {
+      getVehicleByCountry(selectedCountry);
+    }
+  }, [selectedCountry]);
+
   return (
-    <>
-      <h2>Vehicle Distribution</h2>
+    <div>
+      <h2>Vehicle Distribution by Country</h2>
+
+      <select
+        value={selectedCountry}
+        onChange={(e) => setSelectedCountry(e.target.value)}
+      >
+        <option value="">Select Country</option>
+
+        {countryData.map((c: any) => (
+          <option key={c.country} value={c.countryId || c.id}>
+            {c.country}
+          </option>
+        ))}
+      </select>
 
       <PieChart
         series={[
@@ -25,6 +54,6 @@ export default function VehicleDistributionChart() {
         ]}
         height={300}
       />
-    </>
+    </div>
   );
 }

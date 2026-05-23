@@ -1,9 +1,7 @@
 import { Request, Response } from "express";
 import { TrafficService } from "../services/traffic.service";
 
-
 const trafficService = new TrafficService();
-
 export class TrafficController {
   
   async getAll(req: Request, res: Response) {
@@ -24,23 +22,17 @@ export class TrafficController {
     }
   }
 
-  async getByVehicle(req: Request, res: Response) {
+  getVehicleByCountry = async (req: Request, res: Response) => {
     try {
-      const data = await trafficService.getByVehicle();
+      const { countryId } = req.params;
+      const safeId = Array.isArray(countryId) ? countryId[0] : countryId;  
+      const data = await trafficService.getVehicleByCountry(safeId);
+  
       res.json(data);
     } catch (err) {
-      res.status(500).json({ error: err.message });
+      res.status(500).json({ message: "Error fetching data" + err });
     }
-  }
-
-  async getBreakdown(req: Request, res: Response) {
-    try {
-      const data = await trafficService.getBreakdown();
-      res.json(data);
-    } catch (err) {
-      res.status(500).json({ error: err.message });
-    }
-  }
+  };
 
   async create(req: Request, res: Response) {
     try {

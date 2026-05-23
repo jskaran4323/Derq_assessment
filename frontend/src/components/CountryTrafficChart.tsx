@@ -4,7 +4,7 @@ import { useTraffic } from "../hooks/trafficData";
 import { LineChart } from "@mui/x-charts";
 
 export default function CountryTrafficChart() {
-  const { countryData, getCountryData, isLoading, error } = useTraffic();
+  const { countryData, getCountryData} = useTraffic();
 
   useEffect(() => {
     getCountryData();

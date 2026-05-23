@@ -1,6 +1,6 @@
 import { Express } from 'express';
-import countryRoutes from './v1/routes/country.routes';
-import trafficRoutes from './v1/routes/traffic.routes';
+import countryRoutes from './v1/routes/country.routes.js';
+import trafficRoutes from './v1/routes/traffic.routes.js';
 
 
 const API_VERSION = 'v1';

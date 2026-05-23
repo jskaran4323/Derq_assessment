@@ -1,5 +1,5 @@
-import { prisma } from "../../prisma";
-import { CreateTrafficDto, UpdateTrafficDto, UpsertTrafficDto } from "../../types/traffic.dto";
+import { prisma } from "../../prisma.js";
+import { CreateTrafficDto, UpdateTrafficDto, UpsertTrafficDto } from "../../types/traffic.dto.js";
 import { TrafficData, Country } from "@prisma/client";
 
 export class TrafficService {

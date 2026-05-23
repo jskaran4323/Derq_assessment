@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { TrafficService } from "../services/traffic.service";
+import { TrafficService } from "../services/traffic.service.js";
 
 
 const trafficService = new TrafficService();

@@ -1,4 +1,4 @@
-import { VehicleType } from "../enums/vehicle.enum";
+import { VehicleType } from "../enums/vehicle.enum.js";
 
 export interface CreateTrafficDto {
   countryId:     string;

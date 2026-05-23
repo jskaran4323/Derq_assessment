@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { TrafficController } from "../controller/traffic.controller";
+import { TrafficController } from "../controller/traffic.controller.js";
 
 
 const router = Router();

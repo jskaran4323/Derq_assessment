@@ -1,15 +1,15 @@
 import express from 'express';
 import cors from "cors";
-import { corsConfig } from './config/cors.config';
+import { corsConfig } from './config/cors.config.js';
 import pino from 'pino';
-import pinoHttp from 'pino-http';
-import { registerRoutes } from '.';
+import { pinoHttp } from 'pino-http' 
+import { registerRoutes } from './index.js';
 
 const app = express()
 const PORT = process.env.PORT || '3000'
 const logger = pino({ level: 'info' });
 
-app.use(pinoHttp({ logger }));
+app.use(pinoHttp({ logger }))
 
 app.use(cors(corsConfig));
 app.use(express.json())

@@ -1,4 +1,4 @@
-import { prisma } from "../../prisma";
+import { prisma } from "../../prisma.js";
 import { Country } from "@prisma/client";
 export class CountryService{
     async create(name: string){

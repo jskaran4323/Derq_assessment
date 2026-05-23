@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { CountryService } from "../services/country.service";
+import { CountryService } from "../services/country.service.js";
 
 const service = new CountryService();
 const toMessage = (err: unknown) => (err instanceof Error ? err.message : String(err));

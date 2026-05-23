@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTraffic } from "../hooks/trafficData";
 import { PieChart } from "@mui/x-charts/PieChart";
-
+import "./../css/style.css"
 export default function VehicleByCountry() {
   const {
     countryData,
@@ -43,7 +43,8 @@ export default function VehicleByCountry() {
         ]}
         height={300}
       />
-      <select
+      <select 
+        className="country-select"
         value={selectedCountry || ""}
         onChange={(e) => setSelectedCountry(e.target.value)}
       >

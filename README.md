@@ -1,46 +1,65 @@
-## With Docker:
+# Traffic Monitoring System
 
-1. Install Docker
-   [https://docs.docker.com/install/#supported-platforms](https://docs.docker.com/install/#supported-platforms)
+## Objective
 
-2. Install Docker Compose
-   [https://docs.docker.com/compose/install/](https://docs.docker.com/compose/install/)
-
-3. Create a database called `traffic_db`:
-   Run:
-
-   ```bash
-   mysql -u root -p
-   ```
-
-   Then:
-
-   ```sql
-   CREATE DATABASE traffic_db;
-   ```
-
-   Once created, run:
-
-   ```bash
-   mysql -u root -p traffic_db < backup.sql
-   ```
-
-   (backup.sql is included in the root folder)
+This project is built as a full-stack traffic monitoring application that visualizes country-wise vehicle traffic data using charts and analytics.
 
 ---
 
-4. Create `.env` files inside `/backend` and `/frontend`:
+# Setup and Execution Instructions
 
-Backend env:
+## With Docker
 
+### 1. Install Docker
+
+https://docs.docker.com/install/#supported-platforms
+
+---
+
+### 2. Install Docker Compose
+
+https://docs.docker.com/compose/install/
+
+---
+
+### 3. Create Database
+
+Run:
+
+```bash
+mysql -u root -p
 ```
+
+Then:
+
+```sql
+CREATE DATABASE traffic_db;
+```
+
+Once created, run:
+
+```bash
+mysql -u root -p traffic_db < backup.sql
+```
+
+`backup.sql` is included in the root folder.
+
+---
+
+### 4. Create `.env` Files
+
+Create `.env` files inside `/backend` and `/frontend`.
+
+#### Backend `.env`
+
+```env
 DATABASE_URL="mysql://root:password@host.docker.internal:3306/traffic_db"
 PORT=3000
 ```
 
-Frontend env:
+#### Frontend `.env`
 
-```
+```env
 VITE_API_URL=http://localhost:3000/api/v1
 ```
 
@@ -48,7 +67,7 @@ Note: DB is still local in this setup (only backend and frontend are containeriz
 
 ---
 
-5. Build the Docker image:
+### 5. Build Docker Images
 
 ```bash
 docker compose build --no-cache
@@ -62,32 +81,44 @@ docker compose up
 
 ---
 
-6. App should run on:
+### 6. Application URLs
 
-```
+Frontend:
+
+```bash
 http://localhost:5173
 ```
 
----
+Backend:
 
-7. Open Docker Desktop to check logs.
-
----
-
-## Without Docker:
-
-### Backend:
-
-1. Create `.env` file inside `/backend`:
-
+```bash
+http://localhost:3000
 ```
+
+---
+
+### 7. Docker Logs
+
+Open Docker Desktop to check logs.
+
+---
+
+# Without Docker
+
+## Backend Setup
+
+### 1. Create `.env` File
+
+Inside `/backend`:
+
+```env
 DATABASE_URL="mysql://root:password@localhost:3306/traffic_db"
 PORT=3000
 ```
 
 ---
 
-2. Install backend dependencies:
+### 2. Install Dependencies
 
 ```bash
 cd backend
@@ -96,7 +127,9 @@ npm install
 
 ---
 
-3. Create database:
+### 3. Create Database
+
+Run:
 
 ```bash
 mysql -u root -p
@@ -108,33 +141,41 @@ Then:
 CREATE DATABASE traffic_db;
 ```
 
-Load seed/backup:
+Load backup:
 
 ```bash
-mysql -u root -p traffic_db < backup.sql  
+mysql -u root -p traffic_db < backup.sql
 ```
 
 ---
 
-4. Backend runs on:
+### 4. Start Backend
 
+```bash
+npm run dev
 ```
+
+Backend runs on:
+
+```bash
 http://localhost:3000
 ```
 
 ---
 
-### Frontend:
+# Frontend Setup
 
-1. Create `.env` file inside `/frontend`:
+### 1. Create `.env` File
 
-```
+Inside `/frontend`:
+
+```env
 VITE_API_URL=http://localhost:3000/api/v1
 ```
 
 ---
 
-2. Install frontend dependencies:
+### 2. Install Dependencies
 
 ```bash
 cd frontend
@@ -143,7 +184,7 @@ npm install
 
 ---
 
-3. Start frontend:
+### 3. Start Frontend
 
 ```bash
 npm run dev
@@ -151,70 +192,165 @@ npm run dev
 
 ---
 
-4. Frontend runs on:
+### 4. Frontend URL
 
-```
+```bash
 http://localhost:5173
 ```
 
+---
 
-Archeture:
+# System Architecture
 
 This project is built as a full-stack web application using a simple but scalable layered architecture. The system is split into three main parts: frontend, backend, and database.
 
 The frontend is built using React with Vite. It is responsible only for the user interface and user interactions. It does not talk directly to the database. Instead, it sends HTTP requests to the backend API. The frontend runs independently and communicates with the backend using a base API URL defined in environment variables.
-I used Zustand for statemanagement and use custom hooks for traffic data. 
+
+I used Zustand for statemanagement and use custom hooks for traffic data.
 
 Since i used typescript i have to create a custom error handler as well to hanlde API errors.
 
 In case of graphs i used MUI charts:
-https://mui.com/ here a reference to charts used.
+https://mui.com/
 
-I didnt added any tailwind/bootstrap for CSS. instead kept everything simple using simple CSS file under /css.
+I didnt added any tailwind/bootstrap for CSS. instead kept everything simple using simple CSS file under `/css`.
 
+---
 
-The backend is built using Node.js with Express and TypeScript. It acts as the main logic layer of the system. All business logic, validation, and API handling are done here. The backend exposes REST APIs under a versioned route structure like /api/v1. It connects to the database through an ORM layer (Prisma). This layer abstracts raw SQL and makes database operations safer and easier to manage.
-Since i used prisma, models were autocreated. so there was no need for manunal model files
-Kept the flow simple :
+The backend is built using Node.js with Express and TypeScript. It acts as the main logic layer of the system. All business logic, validation, and API handling are done here. The backend exposes REST APIs under a versioned route structure like `/api/v1`.
 
-Server -> Controller -> service -> database.
+It connects to the database through an ORM layer (Prisma). This layer abstracts raw SQL and makes database operations safer and easier to manage.
+
+Since i used prisma, models were autocreated. so there was no need for manunal model files.
+
+Kept the flow simple:
+
+```text
+Server -> Controller -> service -> database
+```
 
 I added CRUD for country and traffic but i didnt used them in the frontend.
-Routes can be found in ./routes file 
 
-Main API For this project were:
+Routes can be found in the `./routes` file.
+
+---
+
+# Main APIs
+
+| Method | Endpoint | Description |
+|---|---|---|
 | GET | `/api/v1/traffic/by-country` | Total traffic grouped by country |
 | GET | `/api/v1/traffic/vehicle/:countryId` | Vehicle breakdown for a country |
 
-since only these two were used in the frontend.
+Since only these two were used in the frontend.
 
-The database is MySQL and stores all persistent application data. In Docker setup, the database runs locally on the host machine, while in non-Docker setup it runs directly as a local service. A backup.sql file is used to initialize or restore the database state.
+---
 
+# Database
 
-Docker is used to containerize the frontend and backend only. This ensures that both services run in a consistent environment regardless of the host machine. Docker Compose manages the service orchestration and simplifies startup by running both containers together.
+The database is MySQL and stores all persistent application data.
 
-The overall flow of the system is:
+In Docker setup, the database runs locally on the host machine, while in non-Docker setup it runs directly as a local service.
 
-User interacts with frontend → frontend sends request to backend API → backend processes request and interacts with database → response is sent back to frontend → UI updates based on response.
+A `backup.sql` file is used to initialize or restore the database state.
 
-Testing:
-Due to time constraints, i only added few test cases that test the business logic of the application. which in term serves the main API which is TrafficService.
-To run test locally:
-Run `npm test`
+---
 
-the main use of this test is for the CI pipline.
+# Database Entities
 
-CI pipeline:
+## Country
+
+Each country has:
+
+- A unique UUID as its primary identifier
+- A unique country name
+- Automatic timestamps for creation and updates
+
+A country can have multiple traffic records associated with it through a one-to-many relationship with the `TrafficData` table.
+
+---
+
+## TrafficData
+
+The `TrafficData` model stores vehicle traffic statistics for each country.
+
+Each traffic record contains:
+
+- A unique UUID
+- A reference to a country
+- Vehicle type information
+- Vehicle count
+- Date and time when the data was recorded
+- Automatic timestamps for creation and updates
+
+---
+
+# Vehicle Types
+
+The system uses an enum called `VehicleType` to ensure only valid vehicle categories are stored in the database.
+
+Supported vehicle types:
+
+- CAR
+- TRUCK
+- BIKE
+- BUS
+
+---
+
+# Docker
+
+Docker is used to containerize the frontend and backend only.
+
+This ensures that both services run in a consistent environment regardless of the host machine.
+
+Docker Compose manages the service orchestration and simplifies startup by running both containers together.
+
+---
+
+# Application Flow
+
+```text
+User interacts with frontend
+        ↓
+Frontend sends request to backend API
+        ↓
+Backend processes request and interacts with database
+        ↓
+Response is sent back to frontend
+        ↓
+UI updates based on response
+```
+
+---
+
+# Testing
+
+Due to time constraints, i only added few test cases that test the business logic of the application. which in term serves the main API which is `TrafficService`.
+
+To run tests locally:
+
+```bash
+npm test
+```
+
+The main use of this test is for the CI pipeline.
+
+---
+
+# CI Pipeline
+
 I set up a CI pipeline using Git-based automation (like GitHub Actions).
 
 The main purpose of the pipeline is to automatically validate code every time changes are pushed or a pull request is created.
 
 The pipeline runs a few important steps:
 
-It first installs all dependencies to make sure the project builds correctly in a clean environment for both frontend and backend.
+- It first installs all dependencies to make sure the project builds correctly in a clean environment for both frontend and backend.
+- After that, it runs TypeScript compilation to ensure there are no type errors.
+- Finally, it runs the test suite to make sure no existing functionality is broken.
 
-After that, it runs TypeScript compilation to ensure there are no type errors.
+This ensures that only stable and verified code gets merged into the `main` and `develop` branches.
 
-Finally, it runs the test suite to make sure no existing functionality is broken.
+---
 
-This ensures that only stable and verified code gets merged into the main and develop branches.

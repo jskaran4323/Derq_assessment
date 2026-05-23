@@ -1,23 +1,21 @@
-import { useEffect } from "react";
-import { useTraffic } from "../hooks/trafficData";
-
+import CountryTrafficChart from "../components/CountryTrafficChart";
+import VehicleDistributionChart from "../components/VehicleDistributionChart";
+import "./dashboard.css";
 
 export default function DashBoard() {
-  const { breakdown, getBreakdown } = useTraffic();
-
-  useEffect(() => {
-    getBreakdown();
-  }, []);
-
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div className="dashboard">
+      <h1>Traffic Dashboard</h1>
 
-      <h2>Breakdown Test</h2>
+      <div className="charts-container">
+        <div className="chart-card">
+          <CountryTrafficChart />
+        </div>
 
-      <pre>
-        {JSON.stringify(breakdown, null, 2)}
-      </pre>
+        <div className="chart-card">
+          <VehicleDistributionChart />
+        </div>
+      </div>
     </div>
   );
 }

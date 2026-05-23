@@ -6,9 +6,6 @@ export const trafficDataApi = {
     },
     getTrafficDataByVehicle: () =>{
         return apiClient.get("/traffic/by-vehicle")
-    },
-    trafficDataBreakDown: ()=>{
-        return apiClient.get("/traffic/breakdown")
     }
     
 }

@@ -1,6 +1,7 @@
 import type { VehicleType } from "./vehicle.enum"
 
 export interface CountryData{
+    countryId: string,
     country: string,
     total: number
 }

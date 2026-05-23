@@ -17,31 +17,20 @@ export default function VehicleByCountry() {
   }, []);
 
   useEffect(() => {
-    console.log(selectedCountry);
-     console.log(countryData);
-     
     if (selectedCountry) {
       getVehicleByCountry(selectedCountry);
     }
   }, [selectedCountry]);
 
+  useEffect(() => {
+    if (countryData.length > 0 && !selectedCountry) {
+      setSelectedCountry(countryData[0].countryId);
+    }
+  }, [countryData]);
+
   return (
     <div>
       <h2>Vehicle Distribution by Country</h2>
-
-      <select
-        value={selectedCountry}
-        onChange={(e) => setSelectedCountry(e.target.value)}
-      >
-        <option value="">Select Country</option>
-
-        {countryData.map((c: any) => (
-          <option key={c.country} value={c.countryId || c.id}>
-            {c.country}
-          </option>
-        ))}
-      </select>
-
       <PieChart
         series={[
           {
@@ -54,6 +43,18 @@ export default function VehicleByCountry() {
         ]}
         height={300}
       />
+      <select
+        value={selectedCountry || ""}
+        onChange={(e) => setSelectedCountry(e.target.value)}
+      >
+        <option value="">Select Country</option>
+
+        {countryData.map((c: any) => (
+          <option key={c.country} value={c.countryId || c.id}>
+            {c.country}
+          </option>
+        ))}
+      </select>
     </div>
   );
 }

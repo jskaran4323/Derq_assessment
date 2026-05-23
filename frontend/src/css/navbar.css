@@ -1,0 +1,27 @@
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  
+    height: 64px;
+    padding: 0 24px;
+  
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  
+    background: rgba(17, 24, 39, 0.9);
+    backdrop-filter: blur(10px);
+  
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+ 
+  }
+  .nav-links a {
+    color: #38bdf8;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.2s;
+  }
+  .nav-links a:hover {
+    color: white;
+  }

@@ -1,10 +1,10 @@
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTraffic } from "../hooks/trafficData";
 import { LineChart } from "@mui/x-charts";
 
 export default function CountryTrafficChart() {
-  const { countryData, getCountryData } = useTraffic();
+  const { countryData, getCountryData, isLoading, error } = useTraffic();
 
   useEffect(() => {
     getCountryData();
@@ -13,12 +13,12 @@ export default function CountryTrafficChart() {
   return (
     <>
       <h2>Country-wise Traffic</h2>
-
       <LineChart
         xAxis={[
           {
             scaleType: "band",
-            data: countryData.map((item: any) => item.country)
+            data: countryData.map((item: any) => item.country),
+            label:"Countries"
           }
         ]}
         series={[

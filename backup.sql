@@ -1,0 +1,118 @@
+-- MySQL dump 10.13  Distrib 9.2.0, for macos15.2 (arm64)
+--
+-- Host: localhost    Database: traffic_db
+-- ------------------------------------------------------
+-- Server version	9.2.0
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `_prisma_migrations`
+--
+
+DROP TABLE IF EXISTS `_prisma_migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `_prisma_migrations` (
+  `id` varchar(36) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `checksum` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `finished_at` datetime(3) DEFAULT NULL,
+  `migration_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `logs` text COLLATE utf8mb4_unicode_ci,
+  `rolled_back_at` datetime(3) DEFAULT NULL,
+  `started_at` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `applied_steps_count` int unsigned NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `_prisma_migrations`
+--
+
+LOCK TABLES `_prisma_migrations` WRITE;
+/*!40000 ALTER TABLE `_prisma_migrations` DISABLE KEYS */;
+INSERT INTO `_prisma_migrations` VALUES ('13ac4c4d-3d81-4d0d-aa2c-311e70f8e7af','d6b79a31c63850cb55c8fb13255fe250e6b52b9c8381fe7b7812a2a9f68ef54c','2026-05-22 14:36:03.538','20260522143603_',NULL,NULL,'2026-05-22 14:36:03.521',1),('473f985a-028a-4bc9-bf2f-91845f1d0ca4','685174f0c468b433b3f441dd222fc167c52b895d698477cf28790741e7e6b4c3','2026-05-22 14:35:49.076','20260521162957_init',NULL,NULL,'2026-05-22 14:35:49.028',1),('7880392f-371b-4388-a9bc-e2bc6027ebaa','0277040f13613cf9202e632bace204920e3901522de5c50e6112a048ba9b4029','2026-05-22 14:35:49.081','20260522135438_add_unique_country_vehicle',NULL,NULL,'2026-05-22 14:35:49.077',1);
+/*!40000 ALTER TABLE `_prisma_migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `Country`
+--
+
+DROP TABLE IF EXISTS `Country`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `Country` (
+  `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `updated_at` datetime(3) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Country_name_key` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `Country`
+--
+
+LOCK TABLES `Country` WRITE;
+/*!40000 ALTER TABLE `Country` DISABLE KEYS */;
+INSERT INTO `Country` VALUES ('04b0c81f-c0e5-4ed1-9bec-9fd9c983ba99','India','2026-05-23 03:49:02.676','2026-05-23 03:49:02.676'),('41e5b54b-b78b-419b-817d-0a3ef7c475cb','Japan','2026-05-23 03:49:02.676','2026-05-23 03:49:02.676'),('64de23ed-c9f4-490c-9d21-0aaaf950b091','Australia','2026-05-23 03:49:02.676','2026-05-23 03:49:02.676'),('8013c061-124e-4e1a-bd1a-34aec6ab2dd4','UK','2026-05-23 03:49:02.676','2026-05-23 03:49:02.676'),('825d939a-51e6-4853-bedb-9980b8b7a377','Canada','2026-05-23 03:49:02.676','2026-05-23 03:49:02.676'),('9558486a-9284-4fcc-bd35-4a008a18c05b','Germany','2026-05-23 03:49:02.676','2026-05-23 03:49:02.676'),('c6c55b81-f753-4747-9f3d-f72553fe96e9','USA','2026-05-23 03:49:02.676','2026-05-23 03:49:02.676');
+/*!40000 ALTER TABLE `Country` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `TrafficData`
+--
+
+DROP TABLE IF EXISTS `TrafficData`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `TrafficData` (
+  `id` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `countryId` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `count` int NOT NULL,
+  `recordedAt` datetime(3) NOT NULL,
+  `createdAt` datetime(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+  `updatedAt` datetime(3) NOT NULL,
+  `type` enum('CAR','TRUCK','BIKE','BUS') COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `TrafficData_countryId_type_key` (`countryId`,`type`),
+  KEY `TrafficData_countryId_idx` (`countryId`),
+  KEY `TrafficData_recordedAt_idx` (`recordedAt`),
+  KEY `TrafficData_type_idx` (`type`),
+  CONSTRAINT `TrafficData_countryId_fkey` FOREIGN KEY (`countryId`) REFERENCES `Country` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `TrafficData`
+--
+
+LOCK TABLES `TrafficData` WRITE;
+/*!40000 ALTER TABLE `TrafficData` DISABLE KEYS */;
+INSERT INTO `TrafficData` VALUES ('18bc9c60-823b-406c-b924-f4e561154e0f','8013c061-124e-4e1a-bd1a-34aec6ab2dd4',1221,'2026-05-23 03:49:02.689','2026-05-23 03:49:02.690','2026-05-23 03:49:02.690','BIKE'),('1985ac63-2b6a-41db-a51b-e92e4b07b882','8013c061-124e-4e1a-bd1a-34aec6ab2dd4',488,'2026-05-23 03:49:02.690','2026-05-23 03:49:02.691','2026-05-23 03:49:02.691','BUS'),('1cda55d9-b243-4251-a57a-0f206322b76f','9558486a-9284-4fcc-bd35-4a008a18c05b',2155,'2026-05-23 03:49:02.691','2026-05-23 03:49:02.691','2026-05-23 03:49:02.691','CAR'),('259aa25c-b3fb-4870-94d7-03cfc7b9beda','64de23ed-c9f4-490c-9d21-0aaaf950b091',1669,'2026-05-23 03:49:02.697','2026-05-23 03:49:02.698','2026-05-23 03:49:02.698','BIKE'),('2695409d-e8df-44c6-b41b-6045221f43e2','64de23ed-c9f4-490c-9d21-0aaaf950b091',2437,'2026-05-23 03:49:02.697','2026-05-23 03:49:02.697','2026-05-23 03:49:02.697','CAR'),('27e71995-f4d9-4933-8bda-e1e5dd1b6ca1','41e5b54b-b78b-419b-817d-0a3ef7c475cb',2223,'2026-05-23 03:49:02.695','2026-05-23 03:49:02.696','2026-05-23 03:49:02.696','CAR'),('374aa011-6c87-4d99-bba3-65ee6184c621','04b0c81f-c0e5-4ed1-9bec-9fd9c983ba99',1287,'2026-05-23 03:49:02.694','2026-05-23 03:49:02.694','2026-05-23 03:49:02.694','TRUCK'),('3c746b46-73e5-47d0-996a-1f5e1efbe966','825d939a-51e6-4853-bedb-9980b8b7a377',730,'2026-05-23 03:49:02.685','2026-05-23 03:49:02.686','2026-05-23 03:49:02.686','BUS'),('42e664d9-26b8-444e-93af-eca937249faf','41e5b54b-b78b-419b-817d-0a3ef7c475cb',858,'2026-05-23 03:49:02.696','2026-05-23 03:49:02.697','2026-05-23 03:49:02.697','BUS'),('4534cb19-2a99-4659-8c6b-b8dcdabe920a','8013c061-124e-4e1a-bd1a-34aec6ab2dd4',872,'2026-05-23 03:49:02.689','2026-05-23 03:49:02.689','2026-05-23 03:49:02.689','TRUCK'),('48fb0560-cd11-4f35-ad85-51a0a21bcbc2','04b0c81f-c0e5-4ed1-9bec-9fd9c983ba99',2491,'2026-05-23 03:49:02.693','2026-05-23 03:49:02.694','2026-05-23 03:49:02.694','CAR'),('50fd50e0-f66a-4a15-80a9-3c4319b62098','c6c55b81-f753-4747-9f3d-f72553fe96e9',936,'2026-05-23 03:49:02.686','2026-05-23 03:49:02.687','2026-05-23 03:49:02.687','TRUCK'),('513ba247-dada-453d-8e58-e6a6a263a062','c6c55b81-f753-4747-9f3d-f72553fe96e9',2468,'2026-05-23 03:49:02.686','2026-05-23 03:49:02.687','2026-05-23 03:49:02.687','CAR'),('5eb61117-d4d5-4e55-aa50-f9deee8d7a74','8013c061-124e-4e1a-bd1a-34aec6ab2dd4',2309,'2026-05-23 03:49:02.688','2026-05-23 03:49:02.689','2026-05-23 03:49:02.689','CAR'),('64eac7db-7ba6-4df9-bc05-b0b1f72d1b93','c6c55b81-f753-4747-9f3d-f72553fe96e9',539,'2026-05-23 03:49:02.688','2026-05-23 03:49:02.688','2026-05-23 03:49:02.688','BUS'),('72f3db47-be9f-4491-8e5c-ac16d2b0dc0c','41e5b54b-b78b-419b-817d-0a3ef7c475cb',1240,'2026-05-23 03:49:02.696','2026-05-23 03:49:02.696','2026-05-23 03:49:02.696','TRUCK'),('7d4279df-f02b-4c43-902c-c0b177d9a1ff','825d939a-51e6-4853-bedb-9980b8b7a377',951,'2026-05-23 03:49:02.684','2026-05-23 03:49:02.684','2026-05-23 03:49:02.684','TRUCK'),('7f55b97e-f071-47e9-ac15-1b5b2dbb0ce2','04b0c81f-c0e5-4ed1-9bec-9fd9c983ba99',1228,'2026-05-23 03:49:02.694','2026-05-23 03:49:02.695','2026-05-23 03:49:02.695','BIKE'),('8744446d-f4a4-45ed-b424-fbae253a1710','41e5b54b-b78b-419b-817d-0a3ef7c475cb',1590,'2026-05-23 03:49:02.696','2026-05-23 03:49:02.697','2026-05-23 03:49:02.697','BIKE'),('8f4922a3-bfde-4806-868e-ba0057766d1a','825d939a-51e6-4853-bedb-9980b8b7a377',1587,'2026-05-23 03:49:02.685','2026-05-23 03:49:02.685','2026-05-23 03:49:02.685','BIKE'),('98639316-eb77-406c-96a9-bf1bd77355a2','825d939a-51e6-4853-bedb-9980b8b7a377',2085,'2026-05-23 03:49:02.682','2026-05-23 03:49:02.683','2026-05-23 03:49:02.683','CAR'),('9e9373b4-1897-417b-a59e-26896b7f466f','c6c55b81-f753-4747-9f3d-f72553fe96e9',1541,'2026-05-23 03:49:02.687','2026-05-23 03:49:02.687','2026-05-23 03:49:02.687','BIKE'),('b8943605-a32a-411a-8366-932fb75f82cd','04b0c81f-c0e5-4ed1-9bec-9fd9c983ba99',415,'2026-05-23 03:49:02.695','2026-05-23 03:49:02.695','2026-05-23 03:49:02.695','BUS'),('b954d5c1-8bf1-4d1c-8851-afe22340b183','9558486a-9284-4fcc-bd35-4a008a18c05b',728,'2026-05-23 03:49:02.692','2026-05-23 03:49:02.693','2026-05-23 03:49:02.693','BUS'),('c7877ffa-c890-4214-a646-79cac84283dd','9558486a-9284-4fcc-bd35-4a008a18c05b',1606,'2026-05-23 03:49:02.692','2026-05-23 03:49:02.692','2026-05-23 03:49:02.692','BIKE'),('ccedb116-f922-43ec-a379-80292c27b7f4','64de23ed-c9f4-490c-9d21-0aaaf950b091',977,'2026-05-23 03:49:02.697','2026-05-23 03:49:02.698','2026-05-23 03:49:02.698','TRUCK'),('d712b686-7fe5-4367-8b7b-d30e9d66f9b1','9558486a-9284-4fcc-bd35-4a008a18c05b',1212,'2026-05-23 03:49:02.691','2026-05-23 03:49:02.692','2026-05-23 03:49:02.692','TRUCK'),('d8c14f39-047e-4b7d-b3b4-b0828619dc77','64de23ed-c9f4-490c-9d21-0aaaf950b091',660,'2026-05-23 03:49:02.698','2026-05-23 03:49:02.698','2026-05-23 03:49:02.698','BUS');
+/*!40000 ALTER TABLE `TrafficData` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2026-05-23 11:09:37

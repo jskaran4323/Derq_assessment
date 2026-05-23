@@ -1,10 +1,19 @@
-# Traffic Monitoring System
+# Derq Assessment
 
-## Objective
-
-This project is built as a full-stack traffic monitoring application that visualizes country-wise vehicle traffic data using charts and analytics.
+## Candidate Information
+Jaskaran Singh | Software Engineer
+Mobile: +1 (343) 558-3817
+Email: jaskaran.s@myjobsca.com
 
 ---
+## Answer to Question 4 of the assignment:
+For scalability as traffic increases
+1. At low traffic like 5RPS, a simple one backend server and single database is enough as long as proper indexing strategies are used for faster queries.
+
+2. At 50RPS, we can experince the same reads for graphs and analytics, so addition of caching strategies (example redis) and running multiple instances of backend server behind a load balancer(for load distribution) would be enough.
+
+3. At 500RPS, we can distrubute the system even more, backend server would be horizontally scaled(muliple instances with load balancing), replicas for database like read replicas for heavy read traffic.
+
 
 # Setup and Execution Instructions
 
@@ -56,6 +65,7 @@ Create `.env` files inside `/backend` and `/frontend`.
 DATABASE_URL="mysql://root:password@host.docker.internal:3306/traffic_db"
 PORT=3000
 ```
+NOTE: when running inside docker make sure your host is :   docker.internal:portnumber
 
 #### Frontend `.env`
 
@@ -308,21 +318,6 @@ Docker Compose manages the service orchestration and simplifies startup by runni
 
 ---
 
-# Application Flow
-
-```text
-User interacts with frontend
-        ↓
-Frontend sends request to backend API
-        ↓
-Backend processes request and interacts with database
-        ↓
-Response is sent back to frontend
-        ↓
-UI updates based on response
-```
-
----
 
 # Testing
 

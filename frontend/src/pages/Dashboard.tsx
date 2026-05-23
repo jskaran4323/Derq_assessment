@@ -2,7 +2,7 @@ import Footer from "../components/common/Footer";
 import Navbar from "../components/common/NavBar";
 import CountryTrafficChart from "../components/CountryTrafficChart";
 import VehicleDistributionChart from "../components/VehicleDistributionChart";
-import trafficImg from "../assets/derq.webp";
+import trafficImg from "../assets/1619765.jpg";
 import "../css/dashboard.css";
 import { useTrafficStore } from "../store/trafficDataStore";
 
@@ -14,7 +14,7 @@ export default function DashBoard() {
     <Navbar />
     <div className="dashboard">
       <h1>Traffic Dashboard</h1>
-       
+      <img src={trafficImg} alt="traffic" />
       {error && (
           <div className="error-box">
             {error}
@@ -30,7 +30,7 @@ export default function DashBoard() {
           <VehicleDistributionChart />
         </div>
       </div>
-      <img src={trafficImg} alt="traffic" />
+     
     </div>
     <Footer/>
     </>

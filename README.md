@@ -94,7 +94,7 @@ Create `.env` files inside `/backend` and `/frontend`.
 DATABASE_URL="mysql://root:password@host.docker.internal:3306/traffic_db"
 PORT=3000
 ```
-**Note:** When running inside Docker, the host must be `host.docker.internal:3306` — otherwise Docker won't be able to reach your local MySQL instance.
+**Note:** When running inside Docker, the host must be `host.docker.internal:3306` otherwise Docker won't be able to reach your local MySQL instance.
 
 #### Frontend `.env`
 

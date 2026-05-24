@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
 import { useTraffic } from "../hooks/trafficData";
 import { PieChart } from "@mui/x-charts/PieChart";
-import "./../css/style.css"
 export default function VehicleByCountry() {
   const {
     countryData,
     vehicleData,
     getCountryData,
     getVehicleByCountry,
-    isLoading
+ 
   } = useTraffic();
 
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -32,11 +31,6 @@ export default function VehicleByCountry() {
   return (
     <div>
       <h2>Vehicle Distribution by Country</h2>
-      {isLoading && (
-          <div className="loading-box">
-            ...Loading Chart
-          </div>
-        )}
       <PieChart
         series={[
           {

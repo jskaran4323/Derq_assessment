@@ -8,7 +8,7 @@ export const useTraffic = () => {
   const store = useTrafficStore();
 
   const getCountryData = async () => {
-    store.setLoading(true);
+  
     store.setError(null);
 
     try {
@@ -19,13 +19,11 @@ export const useTraffic = () => {
       const errorMessage = getErrorMessage(err);
       store.setError(errorMessage);
       return { success: false, error: errorMessage };
-    } finally {
-      store.setLoading(false);
-    }
+    } 
   };
 
   const getVehicleByCountry = async (countryId: string) => {
-    store.setLoading(true);
+  
     store.setError(null);
 
     try {
@@ -36,9 +34,7 @@ export const useTraffic = () => {
       const errorMessage = getErrorMessage(err);
       store.setError(errorMessage);
       return { success: false, error: errorMessage };
-    } finally {
-      store.setLoading(false);
-    }
+    } 
   };
 
   return {

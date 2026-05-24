@@ -9,7 +9,6 @@ type TrafficState = {
 
   setCountryData: (data: CountryData[]) => void;
   setVehicleData: (data: VehicleData[]) => void;
-  setLoading: (val: boolean) => void;
   setError: (val: string | null) => void;
   reset: () => void;
 };
@@ -22,7 +21,6 @@ export const useTrafficStore = create<TrafficState>((set) => ({
 
   setCountryData: (data) => set({ countryData: data }),
   setVehicleData: (data) => set({ vehicleData: data }),
-  setLoading: (val) => set({ isLoading: val }),
   setError: (val) => set({ error: val }),
 
   reset: () =>

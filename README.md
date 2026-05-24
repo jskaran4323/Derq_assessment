@@ -13,7 +13,7 @@ For scalability as traffic increases
 2. At 50RPS, we can experince the same reads for graphs and analytical calculations from multiple requests, so addition of caching strategies for both frontend and backend(example redis) and running multiple instances of backend server behind a load balancer(for load distribution) would result in faster response. on the frontend side we can implement useCallbacks, useMemo for heavy calculations.
 
 3. At 500RPS, we can distrubute the system even more, backend server would be horizontally scaled(muliple instances with load balancing). for example, multiple AWS EC2 instances with two load balancers(one for fallback), replicas for database like read replicas for heavy read traffic. Another thing would be making the system asynchronous by using Consumer-producer pattern so that system can do background jobs without blocking the whole system.
-   Implementation of rate limiting would be beneficial here as well, since one user might block the system by putting too many requests.
+Implementation of rate limiting would be beneficial here as well, since one user might block the system by putting too many requests.
 
 
 # Setup and Execution Instructions
@@ -54,20 +54,26 @@ mysql -u root -p traffic_db < backup.sql
 
 `backup.sql` is included in the root folder.
 
-NOTE: If `backup.sql` does not work for any reason, you can seed the database manually.
+NOTE: If `backup.sql` does not work for any reason, you can seed the database for some starter data.
 
-Create a `seed.ts` file inside:
+first in the .env enter the DATABASEURL to:
 
-```txt
-/backend/prisma
+```env
+DATABASE_URL="mysql://root:password@localhost:3306/traffic_db"
+PORT=3000
 ```
+change the URL after this step is done. i.e follow step 4.
 
-Use the seed file provided in the email, then run:
+Run:
 
 ```bash
 npx prisma generate
 npx prisma db seed
 ```
+after this there shouln't be any error if there is restart the typescript 
+Cmd + Shift + P → then type:
+TypeScript: Restart TS Server
+
 ---
 
 ### 4. Create `.env` Files
@@ -76,11 +82,12 @@ Create `.env` files inside `/backend` and `/frontend`.
 
 #### Backend `.env`
 
+
 ```env
 DATABASE_URL="mysql://root:password@host.docker.internal:3306/traffic_db"
 PORT=3000
 ```
-NOTE: when running inside docker make sure your host is :   docker.internal:portnumber
+NOTE: when running inside docker make sure your host is :   docker.internal:3306 else docker wont read the database
 
 #### Frontend `.env`
 
@@ -152,6 +159,7 @@ Load backup:
 mysql -u root -p traffic_db < backup.sql
 ```
 
+NOTE: if this doesn't work follow the same seed step mention inside the docker setup.
 ---
 
 ### 2. Create `.env` File
@@ -329,17 +337,6 @@ Supported vehicle types:
 - BUS
 
 ---
-
-# Docker
-
-Docker is used to containerize the frontend and backend only.
-
-This ensures that both services run in a consistent environment regardless of the host machine.
-
-Docker Compose manages the service orchestration and simplifies startup by running both containers together.
-
----
-
 
 # Testing
 

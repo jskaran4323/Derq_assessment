@@ -18,6 +18,15 @@ Implementation of rate limiting would be beneficial here as well, since one user
 
 # Setup and Execution Instructions
 
+## Prerequisites
+ 
+Before getting started, make sure you have the following installed:
+ 
+- **Node.js** (v18 or higher recommended)
+- **MySQL** (running locally)
+- **Docker & Docker Compose** *(only required for the Docker setup)*
+---
+
 ## With Docker
 
 ### 1. Install Docker
@@ -54,26 +63,25 @@ mysql -u root -p traffic_db < backup.sql
 
 `backup.sql` is included in the root folder.
 
-NOTE: If `backup.sql` does not work for any reason, you can seed the database for some starter data.
-
-first in the .env enter the DATABASEURL to:
-
+#### Alternative: Seed via Prisma (if `backup.sql` fails)
+ 
+This step runs locally before starting the container.
+ 
+Set your `backend/.env` file temporarily to point to localhost:
+ 
 ```env
 DATABASE_URL="mysql://root:password@localhost:3306/traffic_db"
 PORT=3000
 ```
-change the URL after this step is done. i.e follow step 4.
-
-Run:
-
+ 
+Then run:
+ 
 ```bash
 npx prisma generate
+npx prisma migrate dev
 npx prisma db seed
 ```
-after this there shouln't be any error if there is restart the typescript 
-Cmd + Shift + P → then type:
-TypeScript: Restart TS Server
-
+ 
 ---
 
 ### 4. Create `.env` Files
@@ -82,12 +90,11 @@ Create `.env` files inside `/backend` and `/frontend`.
 
 #### Backend `.env`
 
-
 ```env
 DATABASE_URL="mysql://root:password@host.docker.internal:3306/traffic_db"
 PORT=3000
 ```
-NOTE: when running inside docker make sure your host is :   docker.internal:3306 else docker wont read the database
+**Note:** When running inside Docker, the host must be `host.docker.internal:3306` — otherwise Docker won't be able to reach your local MySQL instance.
 
 #### Frontend `.env`
 
@@ -95,7 +102,7 @@ NOTE: when running inside docker make sure your host is :   docker.internal:3306
 VITE_API_URL=http://localhost:3000/api/v1
 ```
 
-Note: DB is still local in this setup (only backend and frontend are containerized).
+**Note:** : DB is still local in this setup (only backend and frontend are containerized).
 
 ---
 
@@ -159,7 +166,23 @@ Load backup:
 mysql -u root -p traffic_db < backup.sql
 ```
 
-NOTE: if this doesn't work follow the same seed step mention inside the docker setup.
+#### Alternative: Seed via Prisma (if `backup.sql` fails)
+ 
+Set your `backend/.env` file:
+ 
+```env
+DATABASE_URL="mysql://root:password@localhost:3306/traffic_db"
+PORT=3000
+```
+ 
+Then run:
+ 
+```bash
+npx prisma generate
+npx prisma migrate dev
+npx prisma db seed
+```
+ 
 ---
 
 ### 2. Create `.env` File
@@ -247,7 +270,7 @@ I used Zustand for state management and use custom hooks for traffic data.
 Since i used typescript i have to create a custom error handler as well to hanlde API errors.
 
 In case of graphs i used MUI charts:
-https://mui.com/   here a link for reference
+https://mui.com/     here a link for reference
 
 I didnt added any tailwind/bootstrap for CSS. instead kept everything simple using simple CSS file under `/css`.
 
